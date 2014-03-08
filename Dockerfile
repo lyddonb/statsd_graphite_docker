@@ -23,6 +23,7 @@ ADD ./configs/initial_data.json /var/lib/graphite/webapp/graphite/initial_data.j
 ADD ./configs/local_settings.py /var/lib/graphite/webapp/graphite/local_settings.py
 ADD ./configs/carbon.conf /var/lib/graphite/conf/carbon.conf
 ADD ./configs/storage-schemas.conf /var/lib/graphite/conf/storage-schemas.conf
+ADD ./configs/storage-aggregation.conf /var/lib/graphite/conf/storage-aggregation.conf
 
 RUN mkdir -p /var/lib/graphite/storage/whisper
 RUN touch /var/lib/graphite/storage/graphite.db /var/lib/graphite/storage/index
