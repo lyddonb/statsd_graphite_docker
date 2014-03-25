@@ -12,3 +12,13 @@ debug:
 
 ping:
 	nc -z -w5 127.0.0.1 8125; echo $?
+
+gcedocker:
+	curl get.docker.io | bash
+	sudo update-rc.d docker defaults
+
+gcenetwork:
+	gcutil addfirewall statsd --allowed=tcp:80,tcp:4443,udp:8125
+
+clearcontainers:
+	sudo docker rm -v `sudo docker ps -a -q`

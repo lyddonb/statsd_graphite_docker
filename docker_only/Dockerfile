@@ -1,15 +1,14 @@
 FROM ubuntu
 RUN apt-get
 
-RUN echo "deb http://archive.ubuntu.com/ubuntu precise main universe" > /etc/apt/sources.list
-RUN echo "deb http://ppa.launchpad.net/rethinkdb/ppa/ubuntu precise main" >> /etc/apt/sources.list
-RUN apt-get -y update
+#RUN echo "deb http://archive.ubuntu.com/ubuntu precise main universe" > /etc/apt/sources.list
+#RUN echo "deb http://ppa.launchpad.net/rethinkdb/ppa/ubuntu precise main" >> /etc/apt/sources.list
+#RUN apt-get -y update
 
 RUN apt-get -y install python-ldap python-cairo python-django python-twisted \
         python-django-tagging python-simplejson python-memcache python-pysqlite2 \
         python-support python-pip gunicorn supervisor nginx-light
 
-RUN apt-get install -y --force-yes nodejs
 RUN apt-get install -y --force-yes git
 
 RUN pip install --upgrade pip
