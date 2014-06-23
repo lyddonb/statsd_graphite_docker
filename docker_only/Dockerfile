@@ -1,41 +1,55 @@
-FROM ubuntu
-RUN apt-get
+FROM ubuntu:precise
 
-#RUN echo "deb http://archive.ubuntu.com/ubuntu precise main universe" > /etc/apt/sources.list
-#RUN echo "deb http://ppa.launchpad.net/rethinkdb/ppa/ubuntu precise main" >> /etc/apt/sources.list
-#RUN apt-get -y update
+RUN apt-get -y update
+RUN apt-get -y upgrade
 
-RUN apt-get -y install python-ldap python-cairo python-django python-twisted \
-        python-django-tagging python-simplejson python-memcache python-pysqlite2 \
-        python-support python-pip gunicorn supervisor nginx-light
+RUN apt-get -y --force-yes install \
+        git \
+        gunicorn \
+        nginx-light \
+        nodejs \
+        npm \
+        python-cairo \
+        python-django \
+        python-django-tagging \
+        python-ldap \
+        python-memcache \
+        python-pip \
+        python-pysqlite2 \
+        python-simplejson \
+        python-support \
+        python-twisted \
+        supervisor
 
-RUN apt-get install -y --force-yes git
+RUN ln -s `which nodejs` /usr/bin/node
 
 RUN pip install --upgrade pip
-RUN pip install whisper
-RUN pip install --install-option="--prefix=/var/lib/graphite" --install-option="--install-lib=/var/lib/graphite/lib" carbon
-RUN pip install --install-option="--prefix=/var/lib/graphite" --install-option="--install-lib=/var/lib/graphite/webapp" graphite-web
+RUN pip install whisper daemonize
+RUN pip install --install-option="--prefix=/opt/graphite" --install-option="--install-lib=/opt/graphite/lib" carbon
+RUN pip install --install-option="--prefix=/opt/graphite" --install-option="--install-lib=/opt/graphite/webapp" graphite-web
+
+RUN sed -i -e's/from twisted.scripts._twistd_unix import daemonize/import daemonize/g' /opt/graphite/lib/carbon/util.py
 
 ADD ./configs/nginx.conf /etc/nginx/nginx.conf
 ADD ./configs/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-ADD ./configs/initial_data.json /var/lib/graphite/webapp/graphite/initial_data.json
-ADD ./configs/local_settings.py /var/lib/graphite/webapp/graphite/local_settings.py
-ADD ./configs/carbon.conf /var/lib/graphite/conf/carbon.conf
-ADD ./configs/storage-schemas.conf /var/lib/graphite/conf/storage-schemas.conf
-ADD ./configs/storage-aggregation.conf /var/lib/graphite/conf/storage-aggregation.conf
+ADD ./configs/initial_data.json /opt/graphite/webapp/graphite/initial_data.json
+ADD ./configs/local_settings.py /opt/graphite/webapp/graphite/local_settings.py
+ADD ./configs/carbon.conf /opt/graphite/conf/carbon.conf
+ADD ./configs/storage-schemas.conf /opt/graphite/conf/storage-schemas.conf
+ADD ./configs/storage-aggregation.conf /opt/graphite/conf/storage-aggregation.conf
 
-RUN mkdir -p /var/lib/graphite/storage/whisper
-RUN touch /var/lib/graphite/storage/graphite.db /var/lib/graphite/storage/index
-RUN chown -R www-data /var/lib/graphite/storage
-RUN chmod 0775 /var/lib/graphite/storage /var/lib/graphite/storage/whisper
-RUN chmod 0664 /var/lib/graphite/storage/graphite.db
-RUN cd /var/lib/graphite/webapp/graphite && python manage.py syncdb --noinput
-VOLUME  /var/lib/graphite
+RUN mkdir -p /opt/graphite/storage/whisper
+RUN touch /opt/graphite/storage/graphite.db /opt/graphite/storage/index
+RUN chown -R www-data /opt/graphite/storage
+RUN chmod 0775 /opt/graphite/storage /opt/graphite/storage/whisper
+RUN chmod 0664 /opt/graphite/storage/graphite.db
+RUN cd /opt/graphite/webapp/graphite && python manage.py syncdb --noinput
+VOLUME  /opt/graphite
 
-RUN mkdir -p /var/lib/statsd
-WORKDIR /var/lib/statsd
+RUN mkdir -p /opt/statsd
+WORKDIR /opt/statsd
 RUN git clone https://github.com/etsy/statsd.git
-ADD config.js /var/lib/statsd/config.js
+ADD config.js /opt/statsd/config.js
 
 # Make sure to expose these ports in the run command
 #graphite web
