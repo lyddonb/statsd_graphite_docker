@@ -1,9 +1,7 @@
-FROM ubuntu
-RUN apt-get
+FROM ubuntu:precise
 
-#RUN echo "deb http://archive.ubuntu.com/ubuntu precise main universe" > /etc/apt/sources.list
-#RUN echo "deb http://ppa.launchpad.net/rethinkdb/ppa/ubuntu precise main" >> /etc/apt/sources.list
-#RUN apt-get -y update
+RUN apt-get -y update
+RUN apt-get -y upgrade
 
 RUN apt-get -y install python-ldap python-cairo python-django python-twisted \
         python-django-tagging python-simplejson python-memcache python-pysqlite2 \
