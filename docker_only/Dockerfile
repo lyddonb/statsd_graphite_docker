@@ -3,11 +3,25 @@ FROM ubuntu:precise
 RUN apt-get -y update
 RUN apt-get -y upgrade
 
-RUN apt-get -y install python-ldap python-cairo python-django python-twisted \
-        python-django-tagging python-simplejson python-memcache python-pysqlite2 \
-        python-support python-pip gunicorn supervisor nginx-light
+RUN apt-get -y --force-yes install \
+        git \
+        gunicorn \
+        nginx-light \
+        nodejs \
+        npm \
+        python-cairo \
+        python-django \
+        python-django-tagging \
+        python-ldap \
+        python-memcache \
+        python-pip \
+        python-pysqlite2 \
+        python-simplejson \
+        python-support \
+        python-twisted \
+        supervisor
 
-RUN apt-get install -y --force-yes git
+RUN ln -s `which nodejs` /usr/bin/node
 
 RUN pip install --upgrade pip
 RUN pip install whisper
