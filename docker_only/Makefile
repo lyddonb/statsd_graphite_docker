@@ -4,7 +4,7 @@ build:
 	docker build -t statsd .
 
 run:
-	docker run -p 80:80 -p 2003:2003 -p 2004:2004 -p 7002:7002 -p 8125:8125/udp -v /var/log/supervisor:/var/log/supervisor -d statsd
+	docker run -p 80:80 -p 2003:2003 -p 2004:2004 -p 7002:7002 -p 8125:8125/udp -p 8126:8126 -v /var/log/supervisor:/var/log/supervisor -d statsd
 
 
 debug: 
