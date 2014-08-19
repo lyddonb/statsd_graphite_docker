@@ -27,11 +27,12 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.network :forwarded_port, guest: 4443, host: 4443
   config.vm.network :forwarded_port, guest: 80, host: 8080                    # graphite
   config.vm.network :forwarded_port, guest: 8125, host: 8125, protocol: 'udp' # statsd
+  config.vm.network :forwarded_port, guest: 2003, host: 2003                  # carbon
   config.vm.network :forwarded_port, guest: 8126, host: 8126, protocol: 'udp' # heka
   config.vm.network :forwarded_port, guest: 8325, host: 8325, protocol: 'tcp' # heka
   config.vm.network :forwarded_port, guest: 8325, host: 8325, protocol: 'udp' # heka
   config.vm.network :forwarded_port, guest: 8326, host: 8326, protocol: 'tcp' # heka
-  config.vm.network :forwarded_port, guest: 4352, host: 4352
+  config.vm.network :forwarded_port, guest: 4352, host: 4352                  # heka
   #config.vm.forward_port 4443, 4443
 
   # Create a private network, which allows host-only access to the machine
