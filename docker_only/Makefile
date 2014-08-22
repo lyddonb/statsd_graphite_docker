@@ -4,10 +4,10 @@ build:
 	docker build -t statsd .
 
 run:
-	docker run --name statsd -p 80:80 -p 2003:2003 -p 2004:2004 -p 7002:7002 -p 8125:8125/udp -p 8126:8126 -v /var/log/supervisor:/var/log/supervisor -d statsd
+	docker run --name statsd -p 80:80 -p 2003:2003 -p 2004:2004 -p 7002:7002 -p 8125:8125/udp -p 8126:8126 -v /var/log/supervisor:/var/log/supervisor -v /opt/graphite/storage:/opt/graphite/storage -d statsd
 
 debug: 
-	docker run --name statsd -i -p 80:80 -p 2003:2003 -p 2004:2004 -p 7002:7002 -p 8125:8125/udp -p 8126:8126 -v /var/log/supervisor:/var/log/supervisor statsd
+	docker run --name statsd -i -p 80:80 -p 2003:2003 -p 2004:2004 -p 7002:7002 -p 8125:8125/udp -p 8126:8126 -v /var/log/supervisor:/var/log/supervisor -v /opt/graphite/storage:/opt/graphite/storage statsd
 
 ping:
 	nc -z -w5 127.0.0.1 8125; echo $?

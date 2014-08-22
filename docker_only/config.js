@@ -5,5 +5,6 @@
   flushInterval: 10000,
   debug: false,
   dumpMessages: false,
-  backends: ["./backends/graphite"]
+  backends: ["./backends/graphite"],
+  deleteIdleStats: true
 }

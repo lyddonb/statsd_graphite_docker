@@ -44,7 +44,11 @@ RUN chown -R www-data /opt/graphite/storage
 RUN chmod 0775 /opt/graphite/storage /opt/graphite/storage/whisper
 RUN chmod 0664 /opt/graphite/storage/graphite.db
 RUN cd /opt/graphite/webapp/graphite && python manage.py syncdb --noinput
-VOLUME  /opt/graphite
+
+ADD ./copy_storage.sh /opt/graphite/bin/copy_storage.sh
+RUN chmod a+x /opt/graphite/bin/copy_storage.sh
+
+RUN mv /opt/graphite/storage /opt/graphite/storage.bak
 
 RUN mkdir -p /opt/statsd
 WORKDIR /opt/statsd
