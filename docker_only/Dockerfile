@@ -59,7 +59,6 @@ RUN git clone https://github.com/etsy/statsd.git
 ADD config.js /opt/statsd/config.js
 
 # install diamond
-RUN echo aa
 WORKDIR /tmp
 RUN wget https://github.com/BrightcoveOS/Diamond/archive/v3.4.tar.gz
 RUN tar xvfz v3.4.tar.gz
