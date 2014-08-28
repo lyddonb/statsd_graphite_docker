@@ -19,7 +19,9 @@ RUN apt-get -y --force-yes install \
         python-simplejson \
         python-support \
         python-twisted \
-        supervisor
+        supervisor \
+        build-essential \
+        python-dev
 
 RUN ln -s `which nodejs` /usr/bin/node
 
@@ -54,6 +56,15 @@ RUN mkdir -p /opt/statsd
 WORKDIR /opt/statsd
 RUN git clone https://github.com/etsy/statsd.git
 ADD config.js /opt/statsd/config.js
+
+# install diamond
+RUN pip install diamond python-statsd
+ADD ./diamond/diamond.conf /etc/diamond/diamond.conf
+RUN mkdir -p /usr/share/diamond/collectors
+ADD ./diamond/collectors/diskspace.py /usr/share/diamond/collectors/diskspace.py
+ADD ./diamond/collectors/DiskSpaceCollector.conf /etc/diamond/collectors/DiskSpaceCollector.conf
+ADD ./diamond/collectors/diskusage.py /usr/share/diamond/collectors/diskusage.py
+ADD ./diamond/collectors/DiskUsageCollector.conf /etc/diamond/collectors/DiskUsageCollector.conf
 
 # Make sure to expose these ports in the run command
 #graphite web
