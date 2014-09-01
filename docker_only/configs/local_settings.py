@@ -12,7 +12,11 @@
 # install. This key is used for salting of hashes used in auth tokens,
 # CRSF middleware, cookie storage, etc. This should be set identically among
 # instances if used behind a load balancer.
-#SECRET_KEY = 'UNSAFE_DEFAULT'
+
+try:
+    from graphite.local_auth import SECRET_KEY
+except ImportError:
+    SECRET_KEY = 'UNSAFE_DEFAULT'
 
 # Set your local timezone (Django's default is America/Chicago)
 # If your graphs appear to be offset by a couple hours then this probably
@@ -31,5 +35,20 @@ DEBUG = True
 #####################################
 # Uncomment the following line for direct access to Django settings such as
 # MIDDLEWARE_CLASSES or APPS
-#from graphite.app_settings import *
+from graphite.app_settings import *
 
+
+class SecretKeyMiddleware(object):
+    def process_request(self, request):
+        if (SECRET_KEY == 'UNSAFE_DEFAULT'
+                or request.GET.get('secret') == SECRET_KEY
+                or request.POST.get('secret') == SECRET_KEY):
+            return None
+
+        from django.http import HttpResponse
+        response = HttpResponse('<h1>403 Forbidden</h1>')
+        response.status_code = 403
+        return response
+
+
+MIDDLEWARE_CLASSES += ('graphite.local_settings.SecretKeyMiddleware',)
