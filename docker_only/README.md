@@ -2,4 +2,4 @@
 
 Prior to running the built graphite container, execute the following command, replacing `your-secret-key!`
 
-    sudo mkdir -m 777 /local_auth && sudo echo "SECRET_KEY='your-secret-key!'" > /local_auth/__init__.py
+    sudo mkdir -m 777 /local_auth && sudo echo "ENDPOINT_SECRET_KEY='your-secret-key!'" > /local_auth/__init__.py

@@ -14,9 +14,9 @@
 # instances if used behind a load balancer.
 
 try:
-    from graphite.local_auth import SECRET_KEY
+    from graphite.local_auth import ENDPOINT_SECRET_KEY
 except ImportError:
-    SECRET_KEY = 'UNSAFE_DEFAULT'
+    ENDPOINT_SECRET_KEY = 'UNSECURED_ENDPOINT'
 
 # Set your local timezone (Django's default is America/Chicago)
 # If your graphs appear to be offset by a couple hours then this probably
@@ -40,9 +40,9 @@ from graphite.app_settings import *
 
 class SecretKeyMiddleware(object):
     def process_request(self, request):
-        if (SECRET_KEY == 'UNSAFE_DEFAULT'
-                or request.GET.get('secret') == SECRET_KEY
-                or request.POST.get('secret') == SECRET_KEY):
+        if (ENDPOINT_SECRET_KEY == 'UNSECURED_ENDPOINT'
+                or request.GET.get('secret') == ENDPOINT_SECRET_KEY
+                or request.POST.get('secret') == ENDPOINT_SECRET_KEY):
             return None
 
         from django.http import HttpResponse
