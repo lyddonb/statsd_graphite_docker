@@ -6,5 +6,6 @@
   debug: false,
   dumpMessages: false,
   backends: ["./backends/graphite"],
-  deleteIdleStats: true
+  deleteIdleStats: true,
+  percentThreshold: [90, 95, 99]
 }
