@@ -55,7 +55,7 @@ RUN mv /opt/graphite/storage /opt/graphite/storage.bak
 
 RUN mkdir -p /opt/statsd
 WORKDIR /opt/statsd
-RUN git clone https://github.com/etsy/statsd.git
+RUN git clone -b metric-toggles https://github.com/akgill/statsd.git
 ADD config.js /opt/statsd/config.js
 
 # install diamond
