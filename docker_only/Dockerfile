@@ -2,6 +2,7 @@ FROM ubuntu:precise
 
 RUN apt-get -y update
 RUN apt-get -y upgrade
+RUN apt-get -y update
 
 RUN apt-get -y --force-yes install \
         git \
@@ -28,6 +29,7 @@ RUN ln -s `which nodejs` /usr/bin/node
 
 RUN pip install --upgrade pip
 RUN pip install whisper daemonize
+RUN pip install django==1.4
 RUN pip install --install-option="--prefix=/opt/graphite" --install-option="--install-lib=/opt/graphite/lib" carbon
 RUN pip install --install-option="--prefix=/opt/graphite" --install-option="--install-lib=/opt/graphite/webapp" graphite-web
 
