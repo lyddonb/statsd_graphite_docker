@@ -2,6 +2,7 @@ FROM ubuntu:precise
 
 RUN apt-get -y update
 RUN apt-get -y upgrade
+RUN apt-get -y update
 
 RUN apt-get -y --force-yes install \
         git \
@@ -28,6 +29,7 @@ RUN ln -s `which nodejs` /usr/bin/node
 
 RUN pip install --upgrade pip
 RUN pip install whisper daemonize
+RUN pip install django==1.4
 RUN pip install --install-option="--prefix=/opt/graphite" --install-option="--install-lib=/opt/graphite/lib" carbon
 RUN pip install --install-option="--prefix=/opt/graphite" --install-option="--install-lib=/opt/graphite/webapp" graphite-web
 
@@ -55,7 +57,7 @@ RUN mv /opt/graphite/storage /opt/graphite/storage.bak
 
 RUN mkdir -p /opt/statsd
 WORKDIR /opt/statsd
-RUN git clone https://github.com/etsy/statsd.git
+RUN git clone -b metric-toggles https://github.com/akgill/statsd.git
 ADD config.js /opt/statsd/config.js
 
 # install diamond
