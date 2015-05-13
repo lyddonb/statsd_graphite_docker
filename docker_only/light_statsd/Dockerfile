@@ -31,7 +31,7 @@ RUN pip install --upgrade pip
 RUN pip install whisper daemonize
 RUN pip install django==1.4
 RUN pip install --install-option="--prefix=/opt/graphite" --install-option="--install-lib=/opt/graphite/lib" carbon
-RUN pip install --install-option="--prefix=/opt/graphite" --install-option="--install-lib=/opt/graphite/webapp" graphite-web
+RUN pip install --install-option="--prefix=/opt/graphite" --install-option="--install-lib=/opt/graphite/webapp" graphite-web==0.9.12
 
 RUN sed -i -e's/from twisted.scripts._twistd_unix import daemonize/import daemonize/g' /opt/graphite/lib/carbon/util.py
 
