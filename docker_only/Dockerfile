@@ -62,7 +62,7 @@ ADD config.js /opt/statsd/config.js
 WORKDIR /tmp
 RUN wget https://github.com/BrightcoveOS/Diamond/archive/v3.4.tar.gz
 RUN tar xvfz v3.4.tar.gz
-RUN pip install diamond python-statsd
+RUN pip install diamond==3.4.421 python-statsd==1.7.2
 ADD ./diamond/diamond.conf /etc/diamond/diamond.conf
 RUN mkdir -p /usr/share/diamond/collectors
 RUN cp ./Diamond-3.4/src/collectors/diskspace/diskspace.py /usr/share/diamond/collectors/diskspace.py
