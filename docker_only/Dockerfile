@@ -29,7 +29,7 @@ RUN ln -s `which nodejs` /usr/bin/node
 RUN pip install --upgrade pip
 RUN pip install whisper daemonize
 RUN pip install --install-option="--prefix=/opt/graphite" --install-option="--install-lib=/opt/graphite/lib" carbon
-RUN pip install --install-option="--prefix=/opt/graphite" --install-option="--install-lib=/opt/graphite/webapp" graphite-web
+RUN pip install --install-option="--prefix=/opt/graphite" --install-option="--install-lib=/opt/graphite/webapp" graphite-web==0.9.12
 
 RUN sed -i -e's/from twisted.scripts._twistd_unix import daemonize/import daemonize/g' /opt/graphite/lib/carbon/util.py
 
@@ -62,7 +62,7 @@ ADD config.js /opt/statsd/config.js
 WORKDIR /tmp
 RUN wget https://github.com/BrightcoveOS/Diamond/archive/v3.4.tar.gz
 RUN tar xvfz v3.4.tar.gz
-RUN pip install diamond python-statsd
+RUN pip install diamond==3.4.421 python-statsd==1.7.2
 ADD ./diamond/diamond.conf /etc/diamond/diamond.conf
 RUN mkdir -p /usr/share/diamond/collectors
 RUN cp ./Diamond-3.4/src/collectors/diskspace/diskspace.py /usr/share/diamond/collectors/diskspace.py
